@@ -9,6 +9,8 @@ the group with the most Calories, and prints the result in the format "Elf X is 
 ...
 Note that this solution assumes that the input is well-formed and that each line containing an integer is followed by 
 an empty line, except for the last line. It also assumes that the numbers in the input file are separated by a newline character.
+---
+
 """
 
 with open("input.txt", "r") as f:
