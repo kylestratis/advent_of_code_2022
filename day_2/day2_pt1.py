@@ -26,28 +26,28 @@ think my career is safe for now.
 
 # Read the input from the file "input.txt"
 with open("input.txt", "r") as f:
-  rounds = [line.strip().split() for line in f]
+    rounds = [line.strip().split() for line in f]
 
 # Define the rules of the game
 rules = {
-  "A": "X",  # Rock defeats Scissors
-  "B": "Y",  # Scissors defeats Paper
-  "C": "Z",  # Paper defeats Rock
+    "A": "X",  # Rock defeats Scissors
+    "B": "Y",  # Scissors defeats Paper
+    "C": "Z",  # Paper defeats Rock
 }
 
 # Calculate the score for each round
 scores = []
 for round in rounds:
-  player1, player2 = round
-  if player1 == player2:
-    # Draw
-    scores.append(3)
-  elif rules[player1] == player2:
-    # Player 2 wins
-    scores.append(1)
-  else:
-    # Player 1 wins
-    scores.append(6)
+    player1, player2 = round
+    if player1 == player2:
+        # Draw
+        scores.append(3)
+    elif rules[player1] == player2:
+        # Player 2 wins
+        scores.append(1)
+    else:
+        # Player 1 wins
+        scores.append(6)
 
 # Print the total score
 print("Total score: %d" % sum(scores))
