@@ -5,6 +5,7 @@ Note from the human:
     trained on data that stops at 2021 (unless this isn't a brand new problem). This one was impressive. And just a reminder
     that I only ask ChatGPT the exact question as it comes from Advent of Code. I was on a new session and didn't even
     specify writing in Python, but ChatGPT did (although context may be saved per user between sessions).
+    Another run I did with the same prompt just gave a nested for loop and comments for the heavy lifting.
 """
 
 # Parse the input
