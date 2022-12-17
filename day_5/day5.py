@@ -15,7 +15,7 @@ move 1 from 1 to 2
 """
 
 
-def move_crates(input_string: str) -> Tuple[List[List], List[Tuple]]:
+def move_crates(input_string: str) -> str:
     stacks, directions = input_string.split("\n\n")
     built_stacks = _build_stacks(stacks)
     built_directions = _build_directions(directions)
@@ -25,6 +25,20 @@ def move_crates(input_string: str) -> Tuple[List[List], List[Tuple]]:
             built_stacks[direction[2] - 1].appendleft(
                 built_stacks[direction[1] - 1].popleft()
             )
+    return "".join([stack[0] for stack in built_stacks])
+
+
+# Part 2
+def move_crates_9001(input_string: str) -> str:
+    stacks, directions = input_string.split("\n\n")
+    built_stacks = _build_stacks(stacks)
+    built_directions = _build_directions(directions)
+    for idx, direction in enumerate(built_directions):
+        # Like above, but move crates together
+        temp_deque = deque()
+        for _ in range(direction[0]):
+            temp_deque.appendleft(built_stacks[direction[1] - 1].popleft())
+        built_stacks[direction[2] - 1].extendleft(temp_deque)
     return "".join([stack[0] for stack in built_stacks])
 
 
@@ -60,6 +74,8 @@ def _build_directions(directions: str) -> List[Tuple]:
 
 if __name__ == "__main__":
     print(move_crates(TEST_INPUT))
+    print(f"Move crates pt. 2 test input {move_crates_9001(TEST_INPUT)}")
     with open("input.txt", "r") as f:
         input_string = f.read()
         print(move_crates(input_string))
+        print(move_crates_9001(input_string))
