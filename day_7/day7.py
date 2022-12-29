@@ -85,29 +85,47 @@ def parse_input(input_string: str) -> Tree:
                 fs_tree.insert_child(child=TreeNode(name=cmd[1]))
             else:
                 fs_tree.insert_child(child=TreeNode(name=cmd[1], size=int(cmd[0])))
+    _load_node_sizes(node=fs_tree.root)
     fs_tree.current_node = fs_tree.root
     return fs_tree
 
 
 def find_dir_total_size(tree: Tree) -> int:
-    _check_node(node=tree.root)
-    sizes = _get_dir_sizes(node=tree.root, sizes=list())
+    """
+    Answers part 1
+    """
+    sizes = _get_dir_sizes(node=tree.root, sizes=list(), limit=100_000)
     return sum(sizes)
 
 
-def _check_node(node: TreeNode):
+def delete_smallest_dir(tree: Tree) -> int:
+    """
+    Find smallest directory that will free up total space needed
+    Answers part 2
+    """
+    total_drive_size = 70_000_000
+    needed_free_space = 30_000_000
+    current_free_space = total_drive_size - tree.root.size
+    space_to_free_up = needed_free_space - current_free_space
+    sizes = _get_dir_sizes(node=tree.root, sizes=list())
+    return min([size for size in sizes if size >= space_to_free_up])
+
+
+def _load_node_sizes(node: TreeNode):
     node_total_size = 0
     for child in node.children:
         if child.children:
-            _check_node(node=child)
+            _load_node_sizes(node=child)
         node_total_size += child.size
     node.size = node_total_size
 
 
-def _get_dir_sizes(node: TreeNode, sizes: list, limit: int = 100_000) -> list:
+def _get_dir_sizes(node: TreeNode, sizes: list, limit: int = 0) -> list:
     for child in node.children:
         if child.children:
-            if child.size <= limit:
+            if limit and child.size <= limit:
+                sizes.append(child.size)
+            elif not limit:
                 sizes.append(child.size)
             _get_dir_sizes(node=child, sizes=sizes, limit=limit)
     return sizes
@@ -115,10 +133,12 @@ def _get_dir_sizes(node: TreeNode, sizes: list, limit: int = 100_000) -> list:
 
 if __name__ == "__main__":
     tree = parse_input(TEST_INPUT)
-    print(repr(tree.root))
-    print(find_dir_total_size(tree=tree))
+    print(f"Total dir size for test input (part 1): {find_dir_total_size(tree=tree)}")
+    print(f"Free up space (part 2): {delete_smallest_dir(tree=tree)}")
     with open("input.txt", "r") as f:
         input_string = f.read()
         tree = parse_input(input_string)
-        print(repr(tree.root))
-        print(find_dir_total_size(tree=tree))
+        print(
+            f"Total dir size for test input (part 1): {find_dir_total_size(tree=tree)}"
+        )
+        print(f"Free up space (part 2): {delete_smallest_dir(tree=tree)}")
